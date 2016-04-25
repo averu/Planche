@@ -34,22 +34,22 @@
       <ul class="drawer-menu">
         <!-- <li class="drawer-brand"><a id="dataImg" href="#" onclick="replaceCanvasWithImage()">Save</a></li> -->
         <li class="drawer-brand title">
-          <img src="./img/title.png" alt="" />
+          <img src="./img/style/title.png" alt="" />
           <!-- <div id="title"></div> -->
         </li>
-        <li class="drawer-dropdown">
+        <li class="drawer-dropdown" id="pose-menu">
           <a class="drawer-menu-item dropdown-menu-effect" href="javascript:void(0)" data-toggle="dropdown" role="button" aria-expanded="true">
             ポーズ <span class="drawer-caret"></span><span class="drawer-effect"></span>
           </a>
           <ul class="drawer-dropdown-menu">
-            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="poseChanges('/pose1')">ポーズ1</a></li>
-            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="poseChanges('/pose2')">ポーズ2</a></li>
-            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="poseChanges('/pose3')">ポーズ3</a></li>
-            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="poseChanges('/pose4')">ポーズ4</a></li>
-            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="poseChanges('/pose5')">ポーズ5</a></li>
+            <li><a class="drawer-dropdown-menu-item" id="pose1" href="javascript:void(0)" onClick="poseChanges('/pose1')">ポーズ1</a></li>
+            <li><a class="drawer-dropdown-menu-item" id="pose2" href="javascript:void(0)" onClick="poseChanges('/pose2')">ポーズ2</a></li>
+            <li><a class="drawer-dropdown-menu-item" id="pose3" href="javascript:void(0)" onClick="poseChanges('/pose3')">ポーズ3</a></li>
+            <li><a class="drawer-dropdown-menu-item" id="pose4" href="javascript:void(0)" onClick="poseChanges('/pose4')">ポーズ4</a></li>
+            <li><a class="drawer-dropdown-menu-item" id="pose5" href="javascript:void(0)" onClick="poseChanges('/pose5')">ポーズ5</a></li>
           </ul>
         </li>
-        <li class="drawer-dropdown">
+        <li class="drawer-dropdown" id="preset-menu">
           <a class="drawer-menu-item dropdown-menu-effect" id="preset" href="javascript:void(0)" data-toggle="dropdown" role="button" aria-expanded="true">
             プリセット <span class="drawer-caret"></span><span class="drawer-effect"></span>
           </a>
@@ -69,6 +69,7 @@
             <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('yukari')">ペテン師(@sagisagiz)</a></li>
 						<li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('yu_yukari')">由 (@yu65026)</a></li>
 					  <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('76_yukari')">七六(@nanaroku76)</a></li>
+            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('MtU_yukari')">MtU(@MtU17830715)</a></li>
           </ul>
         </li>
         <li class="drawer-dropdown">
@@ -77,6 +78,8 @@
           </a>
           <ul class="drawer-dropdown-menu">
             <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('76_maki')">七六(@nanaroku76)</a></li>
+            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('yu_maki')">由 (@yu65026)</a></li>
+            <li><a class="drawer-dropdown-menu-item" href="javascript:void(0)" onClick="modelChanges('MtU_maki')">MtU(@MtU17830715)</a></li>
           </ul>
         </li>
         <li class="drawer-brand brand-menu-effect"><a class="brand-menu" id="canvasResize" href="javascript:void(0)" onclick="canvasDefault()"><i class="fa fa-expand fa-lg"></i> 原寸大</a><span class="drawer-effect"></span></li>

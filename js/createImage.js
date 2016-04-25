@@ -1,7 +1,7 @@
 var model = 'yukari';
 var path = '/pose1';
 var adult = false;
-var partsLength = {'yukari':18, '76_maki':12, '76_yukari':19, 'yu_yukari':13};
+var partsLength = {'yukari':18, '76_maki':12, '76_yukari':19, 'yu_yukari':13, 'yu_maki':14, 'MtU_yukari':12, 'MtU_maki':10};
 var fileArry = new Array(partsLength[model]);
 var layerCounter = new Array(partsLength[model]);
 var numMaterials = fileArry.length;
@@ -12,10 +12,13 @@ var ctx;
 var deviceSize = 500;
 var poseLayerCounter = 9;
 var canvasDisplay = true;
-var modelInfo = {'yukari':[649,1068,'/pose1'],
-                 '76_maki':[553,1000,''],
-                 '76_yukari':[707,1000,''],
-                 'yu_yukari':[699,1090,'']
+var modelInfo = {'yukari'    :[649,1068,'/pose1'],
+                 '76_yukari' :[707,1000,''],
+                 '76_maki'   :[553,1000,''],
+                 'yu_yukari' :[699,1090,''],
+                 'yu_maki'   :[691,1250,''],
+                 'MtU_yukari':[1024,1280,'/pose1'],
+                 'MtU_maki'  :[1024,1280,'']
                 };
 var presetArry = {
                   'yukari0':[5,0,0,0,0,0,1,2,0,1,4,0,29,1,1,0,0,0],
@@ -23,47 +26,64 @@ var presetArry = {
                   'yukari2':[0,0,0,0,1,3,2,0,0,3,2,0,6,1,1,0,0,0],
                   'yukari3':[6,0,0,0,0,0,0,0,0,4,0,0,15,1,1,4,0,0],
                   'yukari4':[0,0,0,0,0,0,0,0,0,0,0,0,49,1,2,4,8,3],
-                  'yukari5':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                  'yukari5':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 };
-var defaultPose = {'yukari':[5,0,0,0,0,0,1,2,0,1,4,0,29,1,1,0,0,0],
-                 '76_maki':[0,0,0,0,0,0,0,0,0,0,0,0],
-                 '76_yukari':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                 'yu_yukari':[0,0,0,0,0,0,0,0,0,0,0,0,0]
+var defaultPose = {'yukari'  :[5,0,0,0,0,0,1,2,0,1,4,0,29,1,1,0,0,0],
+                 '76_yukari' :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                 '76_maki'   :[0,0,0,0,0,0,0,0,0,0,0,0],
+                 'yu_yukari' :[0,0,0,0,0,0,0,0,0,0,0,0,0],
+                 'yu_maki'   :[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                 'MtU_yukari':[0,0,0,0,0,0,0,0,0,0,0,0],
+                 'MtU_maki'  :[0,0,0,0,0,0,0,0,0,0]
                 };
-var imgLength = {'yukari/pose1':[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
-                 'yukari/pose2':[13,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
-                 'yukari/pose3':[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
-                 'yukari/pose4':[7 ,4,7,4,1,5,2,3,1,7,4,3,52,1,2,4,23,3],
-                 'yukari/pose5':[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
-                 '76_maki':[1,1,0,7,11,3,8,4,7,0,0,5],
-                 '76_yukari':[0,1,1,1,1,1,1,1,1,1,1,17,14,5,7,7,2,3,1],
-                 'yu_yukari':[4,3,3,2,1,3,23,7,18,1,1,1,6]
+var imgLength = {'yukari/pose1'    :[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
+                 'yukari/pose2'    :[13,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
+                 'yukari/pose3'    :[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
+                 'yukari/pose4'    :[7 ,4,7,4,1,5,2,3,1,7,4,3,52,1,2,4,23,3],
+                 'yukari/pose5'    :[6 ,4,4,4,1,3,2,3,0,7,4,3,52,1,2,4,23,3],
+                 '76_yukari'       :[0,1,1,1,1,1,1,1,1,1,1,17,14,5,7,7,2,3,1],
+                 '76_maki'         :[1,1,0,7,11,3,8,4,7,0,0,5],
+                 'yu_yukari'       :[4,3,3,2,1,3,23,7,18,1,1,1,6],
+                 'yu_maki'         :[1,4,3,3,2,5,16,6,13,1,1,2,1,6],
+                 'MtU_yukari/pose1':[1,2,0,2,3,2,32,1,2,2,1,13],
+                 'MtU_yukari/pose2':[1,2,2,0,3,2,32,1,2,2,1,13],
+                 'MtU_maki'        :[2,2,2,22,1,2,2,2,1,14]
                 };
 var partsName = {'yukari':['服装','下着(上)','下着(下)','ガーター','スカート','上着','ニーソ','パーカー','サイド髪','リング',
                           'ヘアピン','影','表情','鼻','頬','汗','感情','アレ'],
-                 '76_maki':['ポニテ','アホ毛','身体','目','口','ほっぺ','まゆげ','汗','感情','銃','手','バッチ'],
                  '76_yukari':['身体','銃','目','口','頬染め','眉','感情','汗','涙','はね毛',
                               'バッチ1','バッチ2','バッチ3','バッチ4','バッチ5','バッチ6','バッチ7','バッチ8','バッチ9'],
-                 'yu_yukari':['身体','髪','頬染め','頰線','青線','汗','口','眉','目','メガネ','髪飾り','シュシュ','感情']
+                 '76_maki':['ポニテ','アホ毛','身体','目','口','ほっぺ','まゆげ','汗','感情','銃','手','バッチ'],
+                 'yu_yukari':['身体','頭','頬染め','頰線','青線','汗','口','眉','目','メガネ','髪飾り','シュシュ','感情'],
+                 'yu_maki':['後ろ髪','身体','頭','頬染め','頰線','汗','口','眉','目','涙','うさみみ','インカム','メガネ','感情'],
+                 'MtU_yukari':['身体','パーカー','ソレ','髪','汗','頰染め','表情','顔影','インカム','髪飾り','メガネ','感情'],
+                 'MtU_maki':['身体','汗','頰染め','表情','顔影','ソレ','インカム','髪飾り','メガネ','感情']
                 };
-var nicoUrl = {'yukari':'http://seiga.nicovideo.jp/seiga/im5641821',
-               '76_maki':'http://seiga.nicovideo.jp/seiga/im5660355',
-               '76_yukari':'http://seiga.nicovideo.jp/seiga/im5644487',
-               'yu_yukari': 'http://seiga.nicovideo.jp/seiga/im5212730'};
+var nicoUrl = {'yukari'     :'http://seiga.nicovideo.jp/seiga/im5641821',
+               '76_yukari'  :'http://seiga.nicovideo.jp/seiga/im5644487',
+               '76_maki'    :'http://seiga.nicovideo.jp/seiga/im5660355',
+               'yu_yukari'  :'http://seiga.nicovideo.jp/seiga/im5212730',
+               'yu_maki'    :'http://seiga.nicovideo.jp/seiga/im5395677',
+               'MtU_yukari' :'http://seiga.nicovideo.jp/seiga/im5744216',
+               'MtU_maki'   :'http://seiga.nicovideo.jp/seiga/im5747433'
+           };
 // var makiLength = [1,1,0,7,11,3,7,4,7,0,0,5];
 function poseChanges(poseDir){
-  if(model != 'yukari'){
+  if(model != 'yukari' && model != 'MtU_yukari'){
+    return false;
+  }
+  if(model == 'MtU_yukari' && Number(poseDir.slice(-1)) >= 3){
     return false;
   }
   path = poseDir;
   for (var i = 0; i < partsLength[model]; i++) {
     if(i<poseLayerCounter){
-      fileArry[i] = './img/'+ model + path +'/layer' + i +'/' + presetArry[model+0][i] +'.png';
+      fileArry[i] = './img/'+ model + path +'/layer' + i +'/' + defaultPose[model][i] +'.png';
     }
     else{
-      fileArry[i] = './img/'+ model +'/layer' + i +'/' + presetArry[model+0][i] +'.png';
+      fileArry[i] = './img/'+ model +'/layer' + i +'/' + defaultPose[model][i] +'.png';
     }
-    layerCounter[i] = presetArry[model+0][i];
+    layerCounter[i] = defaultPose[model][i];
   }
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
   loadImges();
@@ -99,6 +119,9 @@ function defaultChanges(){
   loadImges();
 }
 function modelChanges(change){
+  if(change == 'yukari' || change == 'MtU_yukari'){
+    poseLayerCounter = change == 'yukari' ? 9 : 4;
+  }
   model = change;
   canvasWidth = modelInfo[model][0];
   canvasHeight = modelInfo[model][1];
@@ -112,6 +135,25 @@ function modelChanges(change){
   // canvasDefault();
 }
 function listMenuRefresh(){
+  if(model != 'yukari'){
+    $('#preset-menu').hide();
+    $('#pose-menu').hide();
+    for (var i = 1; i <= 5; i++) {
+      $('#pose'+i).hide();
+    }
+  }
+  else{
+    $('#preset-menu').show();
+    for (var i = 1; i <= 5; i++) {
+      $('#pose'+i).show();
+    }
+  }
+  if(model == 'MtU_yukari'){
+    $('#pose-menu').show();
+    for (var i = 1; i <= 2; i++) {
+      $('#pose'+i).show();
+    }
+  }
   for (var i = 0; i < defaultPose[model].length; i++) {
     if(i<poseLayerCounter){
       fileArry[i] = './img/'+ model + path +'/layer' + i +'/' + defaultPose[model][i] +'.png';
