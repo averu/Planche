@@ -143,6 +143,7 @@ function listMenuRefresh(){
     }
   }
   else{
+    $('#pose-menu').show();
     $('#preset-menu').show();
     for (var i = 1; i <= 5; i++) {
       $('#pose'+i).show();
